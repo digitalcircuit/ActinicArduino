@@ -22,7 +22,7 @@ G35 Arduino provides an interface between strands of GE ColorEffects LED lights 
 Tools needed:
 
 * Arduino IDE
-* [G35 Arduino Library] (*place in Arduino sketch directory's 'libraries' folder*)
+* [G35 Arduino Library] *place in Arduino sketch directory's 'libraries' folder*
 * *To be done*
 
 [G35 USB]: https://github.com/digitalcircuit/g35-usb
