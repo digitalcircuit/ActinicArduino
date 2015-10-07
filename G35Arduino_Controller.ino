@@ -24,6 +24,18 @@
 // messages.
 #define LIGHT_COUNT (50)
 
+// Copied from G35String.cpp since it's not defined in the header - update here if needed
+#define G35_DELAYLONG 6    // should be ~ 20uS long
+#define G35_DELAYSHORT 2   // should be ~ 10uS long
+#define G35_DELAYEND 40     // should be ~ 30uS long
+// Specifies expected delay in milliseconds to update all lights.
+// Calculated from the constants defined in G35String.h, with additional delay
+// added to account for processing time.
+//
+// You can measure real latency with G35_USB by defining DEBUG_USB_PERFORMANCE in ArduinoOutput.cs
+// (Below assumes about a factor of four increase for each light - x3.85.  It's not quite 4.)
+const int AVERAGE_LATENCY = ((G35_DELAYSHORT + (G35_DELAYLONG + G35_DELAYSHORT)*26 + G35_DELAYEND) * 0.001)*LIGHT_COUNT*3.85;
+
 // Arduino pin number. Pin 13 will blink the on-board LED.
 #define STATUS_PIN (13)
 #define G35_PIN (8)
@@ -82,8 +94,18 @@ void setup() {
   lights.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_BLACK);
   
   digitalWrite(STATUS_PIN, LOW);
-  // Firmware version, used by G35 USB to automatically detect controllers
-  Serial.println("G35_USBv1");
+  // Firmware version and hardware information, used by G35 USB to automatically detect controllers
+  // Use F() to use PROGMEM instead of wasting SRAM
+  Serial.println(F("G35Arduino_Controller:2.0"));
+  Serial.print(F("light_count:"));
+  Serial.println (LIGHT_COUNT);
+  Serial.print(F("color_max:"));
+  Serial.println (CHANNEL_MAX);
+  Serial.print(F("bright_max:"));
+  Serial.println (G35::MAX_INTENSITY);
+  Serial.print(F("avg_latency:"));
+  Serial.println (AVERAGE_LATENCY);
+  Serial.println(F("end_init"));
 }
 
 void loop() {
