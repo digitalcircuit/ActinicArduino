@@ -1,7 +1,7 @@
-/* G35_USB: Compilation of amazing work done by others
-    Some modifications in order to be more useful with the companion C# G35_USB program, built
+/* Actinic: Compilation of amazing work done by others
+    Some modifications in order to be more useful with the companion C# Actinic program, built
     by Shane Synan <digitalcircuit36939@gmail.com>
-    
+
     -- Added an automatic switch to a test-mode if no serial input is received in an amount of time
     -- Added a batch-update mode to modify both color and hue at once
     -- Added output string on startup to identify firmware on Arduino
@@ -13,7 +13,7 @@
   G35: An Arduino library for GE Color Effects G-35 holiday lights.
  Copyright © 2011 The G35 Authors. Use, modification, and distribution are
  subject to the BSD license as described in the accompanying LICENSE file.
- 
+
  See README for complete attributions.
  */
 
@@ -32,7 +32,7 @@
 // Calculated from the constants defined in G35String.h, with additional delay
 // added to account for processing time.
 //
-// You can measure real latency with G35_USB by defining DEBUG_USB_PERFORMANCE in ArduinoOutput.cs
+// You can measure real latency with Actinic by defining DEBUG_USB_PERFORMANCE in ArduinoOutput.cs
 // (Below assumes about a factor of four increase for each light - x3.85.  It's not quite 4.)
 const int AVERAGE_LATENCY = ((G35_DELAYSHORT + (G35_DELAYLONG + G35_DELAYSHORT)*26 + G35_DELAYEND) * 0.001)*LIGHT_COUNT*3.85;
 
@@ -44,19 +44,19 @@ G35String lights(G35_PIN, LIGHT_COUNT);
 
 // GE Color Effects Arduino Interface
 // by Tom Lee <thomas.j.lee at gmail.com>
-// Based on code ported by Scott Harris <scottrharris@gmail.com>  
-// scottrharris.blogspot.com  
-// which was in turn based on :  
+// Based on code ported by Scott Harris <scottrharris@gmail.com>
+// scottrharris.blogspot.com
+// which was in turn based on :
 
-/*!     Christmas Light Control  
- **     By Robert Quattlebaum <darco@deepdarc.com>  
- **     Released November 27th, 2010  
- **  
- **     For more information,  
+/*!     Christmas Light Control
+ **     By Robert Quattlebaum <darco@deepdarc.com>
+ **     Released November 27th, 2010
+ **
+ **     For more information,
  **     see <http://www.deepdarc.com/2010/11/27/hacking-christmas-lights/>.
- **  
- **     Originally intended for the ATTiny13, but should  
- **     be easily portable to other microcontrollers.  
+ **
+ **     Originally intended for the ATTiny13, but should
+ **     be easily portable to other microcontrollers.
  */
 
 //#define xmas_color_t uint16_t // typedefs can cause trouble in the Arduino environment  
@@ -84,19 +84,19 @@ void setup() {
   digitalWrite(G35_PIN, LOW);
 
   Serial.begin(115200);
-  
+
   for(int i=0;i<LIGHT_COUNT;i++) {
     light_hue_array[i] = COLOR_BLACK;
     light_intensity_array[i] = G35::MAX_INTENSITY;
-  } 
+  }
 
   lights.enumerate();
   lights.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_BLACK);
-  
+
   digitalWrite(STATUS_PIN, LOW);
-  // Firmware version and hardware information, used by G35 USB to automatically detect controllers
+  // Firmware version and hardware information, used by Actinic to automatically detect controllers
   // Use F() to use PROGMEM instead of wasting SRAM
-  Serial.println(F("G35Arduino_Controller:2.0"));
+  Serial.println(F("ActinicArduino_Controller:2.0"));
   Serial.print(F("light_count:"));
   Serial.println (LIGHT_COUNT);
   Serial.print(F("color_max:"));
@@ -126,8 +126,7 @@ void loop() {
       changed = true;
       commandSent = true;
       lastCommandTime = millis();
-    }    
-    else if(command=='H') {
+    } else if(command=='H') {
       digitalWrite(STATUS_PIN, HIGH);
 
       // read the hue data and assign it
@@ -162,32 +161,32 @@ void loop() {
     digitalWrite(STATUS_PIN, LOW);
     changed = false;
   }
-  
+
   if (commandSent == false) {
     if ((millis() - lastCommandTime) > IDLE_TIME) {
       if (idleMode == false) {
         idleMode = true;
-        
+
         digitalWrite(STATUS_PIN, HIGH);
         for (int selectedBrightness = 0; selectedBrightness <= G35::MAX_INTENSITY; selectedBrightness += 3) { 
           lights.fill_color(0, LIGHT_COUNT, selectedBrightness, COLOR_ORANGE);
         }
-        
+
         lights.do_test_patterns();
         lights.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_ORANGE);
-        
+
         lights.set_color(0, G35::MAX_INTENSITY, COLOR_RED);
         lights.set_color(1, G35::MAX_INTENSITY, COLOR_YELLOW);
-        
+
         lights.set_color((LIGHT_COUNT / 2) - 2, G35::MAX_INTENSITY, COLOR_YELLOW);
         lights.set_color((LIGHT_COUNT / 2) - 1, G35::MAX_INTENSITY, COLOR_PURPLE);
         lights.set_color((LIGHT_COUNT / 2), G35::MAX_INTENSITY, COLOR_BLUE);
         lights.set_color((LIGHT_COUNT / 2) + 1, G35::MAX_INTENSITY, COLOR_YELLOW);
-        
+
         lights.set_color(LIGHT_COUNT - 2, G35::MAX_INTENSITY, COLOR_YELLOW);
         lights.set_color(LIGHT_COUNT - 1, G35::MAX_INTENSITY, COLOR_GREEN);
         digitalWrite(STATUS_PIN, LOW);
-        
+
       }
     }
     if (commandSent == true & idleMode == true) {

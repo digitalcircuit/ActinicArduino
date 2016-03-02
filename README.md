@@ -1,11 +1,7 @@
-G35 Arduino Controller
+Actinic Arduino Controller
 ===============
 
-**Note: This repository is a work-in-progress**
-
-*Please be patient* :)
-
-G35 Arduino provides an interface between strands of GE ColorEffects LED lights and your computer, currently used by [G35 USB], but usable by any program that can control an Arduino.
+Actinic Arduino provides an interface between strands of GE ColorEffects LED lights and your computer, currently used by [Actinic], but usable by any program that can control an Arduino.
 
 ## Installing
 
@@ -25,5 +21,5 @@ Tools needed:
 * [G35 Arduino Library] *place in Arduino sketch directory's 'libraries' folder*
 * *To be done*
 
-[G35 USB]: https://github.com/digitalcircuit/g35-usb
+[Actinic]: https://github.com/digitalcircuit/actinic
 [G35 Arduino Library]: https://github.com/digitalcircuit/G35ArduinoLibrary
