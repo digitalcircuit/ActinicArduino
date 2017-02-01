@@ -19,10 +19,17 @@
 
 #include <G35String.h>
 
+// Current Arduino protocol version.  This must match what Actinic expects for
+// negotiation to succeed.
+#define PROTOCOL_VERSION (2.1)
+
 // Total # of lights on string (usually 50, 48, or 36). Maximum is 63, because
 // the protocol uses 6-bit addressing and bulb #63 is reserved for broadcast
 // messages.
 #define LIGHT_COUNT (50)
+
+// Lighted length of the string.
+#define STRAND_LENGTH (13.0)
 
 // Copied from G35String.cpp since it's not defined in the header - update here if needed
 #define G35_DELAYLONG 6    // should be ~ 20uS long
@@ -96,9 +103,12 @@ void setup() {
   digitalWrite(STATUS_PIN, LOW);
   // Firmware version and hardware information, used by Actinic to automatically detect controllers
   // Use F() to use PROGMEM instead of wasting SRAM
-  Serial.println(F("ActinicArduino_Controller:2.0"));
+  Serial.print(F("ActinicArduino_Controller:"));
+  Serial.println (PROTOCOL_VERSION);
   Serial.print(F("light_count:"));
   Serial.println (LIGHT_COUNT);
+  Serial.print(F("strand_length:"));
+  Serial.println (STRAND_LENGTH);
   Serial.print(F("color_max:"));
   Serial.println (CHANNEL_MAX);
   Serial.print(F("bright_max:"));
