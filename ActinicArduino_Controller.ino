@@ -32,8 +32,8 @@
 #define STRAND_LENGTH (13.0)
 
 // Copied from G35String.cpp since it's not defined in the header - update here if needed
-#define G35_DELAYLONG 6    // should be ~ 20uS long
-#define G35_DELAYSHORT 2   // should be ~ 10uS long
+#define G35_DELAYLONG 7    // should be ~ 20uS long
+#define G35_DELAYSHORT 3   // should be ~ 10uS long
 #define G35_DELAYEND 40     // should be ~ 30uS long
 // Specifies expected delay in milliseconds to update all lights.
 // Calculated from the constants defined in G35String.h, with additional delay
