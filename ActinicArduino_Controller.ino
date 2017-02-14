@@ -21,7 +21,7 @@
 
 // Current Arduino protocol version.  This must match what Actinic expects for
 // negotiation to succeed.
-#define PROTOCOL_VERSION (2.1)
+#define PROTOCOL_VERSION (2.2)
 
 // Total # of lights on string (usually 50, 48, or 36). Maximum is 63, because
 // the protocol uses 6-bit addressing and bulb #63 is reserved for broadcast
@@ -40,8 +40,9 @@
 // added to account for processing time.
 //
 // You can measure real latency with Actinic by defining DEBUG_USB_PERFORMANCE in ArduinoOutput.cs
-// (Below assumes about a factor of four increase for each light - x3.85.  It's not quite 4.)
-const int AVERAGE_LATENCY = ((G35_DELAYSHORT + (G35_DELAYLONG + G35_DELAYSHORT)*26 + G35_DELAYEND) * 0.001)*LIGHT_COUNT*3.85;
+// (Below assumes about a factor of four increase for each light - x3.15.  It's not quite 3.)
+const float AVERAGE_LATENCY = ((G35_DELAYSHORT + (G35_DELAYLONG + G35_DELAYSHORT)*26 + G35_DELAYEND) * 0.001)
+                               * LIGHT_COUNT*3.15;
 
 // Arduino pin number. Pin 13 will blink the on-board LED.
 #define STATUS_PIN (13)
