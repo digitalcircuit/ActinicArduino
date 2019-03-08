@@ -35,7 +35,7 @@ struct sCRGB {
     inline sCRGB( uint32_t colorcode)  __attribute__((always_inline))
     : r((colorcode >> 16) & 0xFF), g((colorcode >> 8) & 0xFF), b((colorcode >> 0) & 0xFF)
     {
-	}
+    }
 
     /// Predefined RGB colors
     typedef enum {
@@ -186,8 +186,8 @@ struct sCRGB {
         White=0xFFFFFF,
         WhiteSmoke=0xF5F5F5,
         Yellow=0xFFFF00,
-		YellowGreen=0x9ACD32,
-	} HTMLColorCode;
+        YellowGreen=0x9ACD32,
+    } HTMLColorCode;
 };
 
 #endif

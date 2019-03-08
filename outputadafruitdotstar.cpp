@@ -44,7 +44,12 @@ void OutputAdafruitDotStar::setBrightness(int index, uint8_t brightness)
     float brightnessRatio = 1 / (_light_intensity_array[index] / (float)(brightness));
     _light_intensity_array[index] = brightness;
     sCRGB existingColor(_lights.getPixelColor(index));
-    _lights.setPixelColor(index, existingColor.r * brightnessRatio, existingColor.g * brightnessRatio, existingColor.b * brightnessRatio);
+    _lights.setPixelColor(
+        index,
+        existingColor.r * brightnessRatio,
+        existingColor.g * brightnessRatio,
+        existingColor.b * brightnessRatio
+    );
 }
 
 void OutputAdafruitDotStar::setColor(int index, sCRGB color)

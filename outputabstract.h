@@ -114,7 +114,7 @@ public:
     virtual void fillHue(sCRGB color);
 
 private:
-	int _numLEDs = {}; ///< Number of LEDs
+    int _numLEDs = {}; ///< Number of LEDs
 };
 
 #endif
