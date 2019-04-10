@@ -13,7 +13,7 @@
 #define LIGHT_COUNT (150)
 
 // Lighted length of the string
-#define STRAND_LENGTH (13.0)
+#define STRAND_LENGTH (10.0)
 
 // Button input
 #define BUTTON_PIN (2)
@@ -82,10 +82,10 @@
     #define DEC_STATUS StatusDotStarLed statusLed(STATUS_DOTSTAR_DATAPIN, STATUS_DOTSTAR_CLOCKPIN, DOTSTAR_BGR);
 
 #elif defined(ARDUINO_AVR_UNO)
-    // Arduino Uno with 13m of GE ColorEffects G-35 LEDs
+    // Arduino Uno with 12.4m of GE ColorEffects G-35 LEDs
     // --------
     #define LIGHT_COUNT   (50)
-    #define STRAND_LENGTH (13.0)
+    #define STRAND_LENGTH (12.4)
 
     #define BUTTON_PIN (2)
 
