@@ -4,7 +4,11 @@
 #include <stdint.h>
 
 #include <Adafruit_DotStar.h>
-#include <SPI.h>
+// Include hardware SPI interface if available
+// Matches Adafruit_DotStar library include
+#if !defined(__AVR_ATtiny85__)
+ #include <SPI.h>
+#endif
 
 #include "color.h"
 #include "outputabstract.h"
