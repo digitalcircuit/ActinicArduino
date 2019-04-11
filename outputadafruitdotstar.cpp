@@ -2,9 +2,16 @@
 
 #include "protocol.h"
 
-OutputAdafruitDotStar::OutputAdafruitDotStar(int numLEDs, uint8_t rgbOrder) :
+// Include hardware SPI interface if available
+// Matches Adafruit_DotStar library include
+#if !defined(__AVR_ATtiny85__)
+ #include <SPI.h>
+#endif
+
+OutputAdafruitDotStar::OutputAdafruitDotStar(int numLEDs, uint8_t rgbOrder, uint32_t clockMaxOverride) :
     OutputAbstract(numLEDs),
-    _lights(numLEDs, rgbOrder)
+    _lights(numLEDs, rgbOrder),
+    _clockMaxOverride(clockMaxOverride)
 {
     initializeArrays(numLEDs);
 }
@@ -26,6 +33,24 @@ void OutputAdafruitDotStar::initialize()
 {
     // Initialize the LED display
     _lights.begin();
+
+    // Check if platform has SPI transaction support
+    #if defined(SPI_HAS_TRANSACTION)
+        if (_clockMaxOverride > 0) {
+            // Custom SPI clock speed specified, override default using
+            // begin/end transaction.
+            //
+            // The other parameters are copied from the Adafruit_DotStar
+            // library hardware SPI initialization; update here if changed
+            // there.
+            SPI.beginTransaction(
+                SPISettings(_clockMaxOverride, MSBFIRST, SPI_MODE0)
+            );
+            SPI.endTransaction();
+            // This will need changed once the Adafruit library is adapted to
+            // use transactions.
+        }
+    #endif
 }
 
 void OutputAdafruitDotStar::show()

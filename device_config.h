@@ -62,17 +62,19 @@
 // /*
 // --------
 #if defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
-    // ItsyBitsy with 10m of 30 LED/m DotStar LEDs
+    // ItsyBitsy with 10m of 30 LED/m DotStar LEDs, up to 6 MHz SPI
+    // (ItsyBitsy supports 12 MHz, but with tested setup it seemed unstable)
     // --------
-    #define LIGHT_COUNT   (300)
-    #define STRAND_LENGTH (10.0)
+    #define LIGHT_COUNT             (300)
+    #define STRAND_LENGTH           (10.0)
+    #define SPI_CLOCK_MAX_OVERRIDE  (6000000)
 
     #define BUTTON_PIN (2)
 
     // Adafruit DotStar
     #include "outputadafruitdotstar.h"
     extern OutputAdafruitDotStar lights;
-    #define DEC_OUTPUT OutputAdafruitDotStar lights(LIGHT_COUNT, DOTSTAR_BGR);
+    #define DEC_OUTPUT OutputAdafruitDotStar lights(LIGHT_COUNT, DOTSTAR_BGR, SPI_CLOCK_MAX_OVERRIDE);
 
     // DotStar status indicator LED
     #include "statusdotstarled.h"
