@@ -171,7 +171,8 @@ void StateController::setState(States::State newState)
     case States::State::DisplayAmbient:
         // Fill with a color loosely approximating normal lighting
         _statusLed->setBusy(true);
-        _lights->fillColor(sCRGB(255, 130, 20), 255);
+        // Matches Actinic's "ambient" color in Color.cs
+        _lights->fillColor(sCRGB(255, 100, 30), 255);
         _lights->show();
         _statusLed->setBusy(false);
         break;
