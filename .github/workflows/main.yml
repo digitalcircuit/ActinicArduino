@@ -1,0 +1,115 @@
+# Workflow that builds ActinicArduino
+name: ActinicArduino CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # Run at 13:17 on the 12th of every month (odd time to reduce load)
+    - cron: '37 13 12 * *'
+
+# Can't use simpler definition of [ push, pull_request, schedule ]
+# See https://www.jeffgeerling.com/blog/2020/running-github-actions-workflow-on-schedule-and-other-events
+
+# See https://github.com/arduino/arduino-cli-example/blob/master/.github/workflows/test.yaml
+# And https://thecurve.io/production-arduino-binary-builds-with-github-actions/
+
+jobs:
+  build-avr:
+    strategy:
+      fail-fast: false
+      matrix:
+        # The matrix will produce one job for each configuration
+        # parameter of type `arduino-platform`, in this case a
+        # total of 2.
+        arduino-platform: ["adafruit:samd", "arduino:avr"]
+        # This is usually optional but we need to statically define the
+        # FQBN of the boards we want to test for each platform. In the
+        # future the CLI might automatically detect and download the core
+        # needed to compile against a certain FQBN, at that point the
+        # following `include` section will be useless.
+        include:
+          # This works like this: when the platform is "adafruit:samd", the
+          # variable `fqbn` is set to "adafruit:samd:adafruit_itsybitsy_m4".
+          - arduino-platform: "adafruit:samd"
+            fqbn: "adafruit:samd:adafruit_itsybitsy_m4"
+          - arduino-platform: "arduino:avr"
+            fqbn: "arduino:avr:uno"
+
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2.1.0
+
+      - name: Cache Arduino packages
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-build-${{ matrix.arduino-platform }}-${{ hashFiles('.github/workflows/main.yml') }}
+          path: |
+            ~/.arduino15/cache
+            ~/.arduino15/packages
+
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.1.1
+
+      # See https://github.community/t/syntax-for-replacing-characters-in-string/17240/1
+      # And https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-environment-variable
+      - name: Convert platform variables
+        run: |
+          fqbn_filename="${fqbn//:/_}"
+          echo "Filename-safe FQBN: ${fqbn_filename}"
+          echo "fqbn_filename=${fqbn_filename}" >> $GITHUB_ENV
+        env:
+          fqbn: ${{ matrix.fqbn }}
+
+      - name: Configure Arduino CLI
+        run: |
+          arduino-cli config init
+          # Add Adafruit boards
+          arduino-cli config set board_manager.additional_urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+          # Allow "unsafe" library fetching
+          arduino-cli config set library.enable_unsafe_install true
+
+      # We then install the platform, which one will be determined
+      # dynamically by the build matrix.
+      - name: Install platform
+        run: |
+          arduino-cli core update
+          arduino-cli core install ${{ matrix.arduino-platform }}
+
+      - name: Install libraries
+        run: |
+          arduino-cli lib install FastLED
+          arduino-cli lib install --git-url https://github.com/digitalcircuit/G35ArduinoLibrary.git
+          arduino-cli lib install "Adafruit DotStar"
+
+      - name: Upgrade Arduino cache
+        run: |
+          arduino-cli upgrade
+
+      # Compile
+      - name: Compile sketch
+        run: |
+          arduino-cli board attach ${{ matrix.fqbn }} # Tailor build to specific board
+          arduino-cli compile -b ${{ matrix.fqbn }} --output-dir "${{ github.workspace }}/build-output"
+
+      - name: Save build information
+        run: |
+          echo "ActinicArduino for ${{ matrix.fqbn }}" >> ${{ github.workspace }}/build-output/build-info.txt
+          echo "https://github.com/digitalcircuit/ActinicArduino/" >> ${{ github.workspace }}/build-output/build-info.txt
+          echo "--------" >> ${{ github.workspace }}/build-output/build-info.txt
+          git describe --always --long >> ${{ github.workspace }}/build-output/build-info.txt
+          #
+          echo "Commit hash: ${{ github.sha }}" >> ${{ github.workspace }}/build-output/build-info.txt
+          echo "Run ID: ${{ github.run_id }}" >> ${{ github.workspace }}/build-output/build-info.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ActinicArduino-${{ env.fqbn_filename }}
+          path: |
+            ${{ github.workspace }}/build-output/build-info.txt
+            ${{ github.workspace }}/build-output/ActinicArduino.ino.*
+          if-no-files-found: error # Require an artifact
