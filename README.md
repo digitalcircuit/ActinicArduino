@@ -29,7 +29,7 @@ Tools needed:
 * Arduino IDE v1.5 or later
   * Tested: Arduino v1.8.8
 * One or more of the following Arduino libraries (*place in Arduino sketch directory's 'libraries' folder*)
-  * [Adafruit DotStar Library](https://github.com/adafruit/Adafruit_DotStar)
+  * [Adafruit DotStar Library](https://github.com/digitalcircuit/Adafruit_DotStar/tree/ft-hw-limit-brightness)  (*modified [from original](https://github.com/adafruit/Adafruit_DotStar) with [hardware brightness control](https://github.com/adafruit/Adafruit_DotStar/pull/26)*)
   * [FastLED Library](https://github.com/FastLED/FastLED)
   * [G-35 Arduino Library](https://github.com/digitalcircuit/G35ArduinoLibrary) (*modified for slightly better performance*)
 * *To be done*
