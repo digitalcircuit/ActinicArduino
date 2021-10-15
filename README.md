@@ -1,20 +1,20 @@
-Actinic Arduino
+Actinic Arduino [![Build Status](https://github.com/digitalcircuit/ActinicArduino/actions/workflows/main.yml/badge.svg)][ci-status-page]
 ===============
 
-Actinic Arduino provides an interface between strands of LED lights and your computer, primarily intended for the [Actinic lighting controller][actinic], but usable by any program that can talk to an Arduino.
+Actinic Arduino provides an interface between strands of LED lights and your computer, primarily intended for the [Actinic lighting controller](https://github.com/digitalcircuit/actinic), but usable by any program that can talk to an Arduino.
 
 ## Compatibility
 * LED strips
-  * [Adafruit DotStars][adafruit_dotstar_learn]
-  * Anything the [FastLED library supports][fastled_support]
-  * [Modified GE G-35 Christmas lights][g35arduino_mod_blog]
+  * [Adafruit DotStars](https://learn.adafruit.com/adafruit-dotstar-leds)
+  * Anything the [FastLED library supports](https://github.com/FastLED/FastLED/wiki/Overview#chipsets)
+  * [Modified GE G-35 Christmas lights](https://web.archive.org/web/20190322170653/http://www.deepdarc.com/2010/11/27/hacking-christmas-lights/)
 * Status indicators
   * Simple LED (most Arduino-compatible microcontrollers)
-  * DotStar pixel (e.g. as on the [Adafruit ItsyBitsy M4 Express][adafruit_itsybitsy_m4_learn])
+  * DotStar pixel (e.g. as on the [Adafruit ItsyBitsy M4 Express](https://learn.adafruit.com/introducing-adafruit-itsybitsy-m4))
 
 ## Installing
 
-* Configure your hardware in [`device_config.h`][device_config]
+* Configure your hardware in [`device_config.h`](device_config.h)
   * Includes LED strands, status indicator, and button
 * *To be done*
 
@@ -29,17 +29,9 @@ Tools needed:
 * Arduino IDE v1.5 or later
   * Tested: Arduino v1.8.8
 * One or more of the following Arduino libraries (*place in Arduino sketch directory's 'libraries' folder*)
-  * [Adafruit DotStar Library][adafruit_dotstar_gh]
-  * [FastLED Library][fastled_gh]
-  * [G-35 Arduino Library][g35arduino_mod_gh] (*modified for slightly better performance*)
+  * [Adafruit DotStar Library](https://github.com/adafruit/Adafruit_DotStar)
+  * [FastLED Library](https://github.com/FastLED/FastLED)
+  * [G-35 Arduino Library](https://github.com/digitalcircuit/G35ArduinoLibrary) (*modified for slightly better performance*)
 * *To be done*
 
-[actinic]: https://github.com/digitalcircuit/actinic
-[adafruit_dotstar_learn]: https://learn.adafruit.com/adafruit-dotstar-leds
-[adafruit_dotstar_gh]: https://github.com/adafruit/Adafruit_DotStar
-[adafruit_itsybitsy_m4_learn]: https://learn.adafruit.com/introducing-adafruit-itsybitsy-m4
-[fastled_gh]: https://github.com/FastLED/FastLED
-[fastled_support]: https://github.com/FastLED/FastLED/wiki/Overview#chipsets
-[g35arduino_mod_blog]: http://www.deepdarc.com/2010/11/27/hacking-christmas-lights/
-[g35arduino_mod_gh]: https://github.com/digitalcircuit/G35ArduinoLibrary
-[device_config]: device_config.h
+[ci-status-page]: https://github.com/digitalcircuit/ActinicArduino/actions?query=branch%3Amain
