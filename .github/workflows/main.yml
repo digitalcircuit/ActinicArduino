@@ -76,8 +76,8 @@ jobs:
       # dynamically by the build matrix.
       - name: Install platform
         run: |
-          arduino-cli core update
           arduino-cli core install ${{ matrix.arduino-platform }}
+          # Not needed: arduino-cli core update
 
       - name: Install libraries
         run: |
