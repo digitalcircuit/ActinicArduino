@@ -72,6 +72,9 @@ jobs:
           # Allow "unsafe" library fetching
           arduino-cli config set library.enable_unsafe_install true
 
+      - name: Print Arduino CLI version
+        run: arduino-cli version
+
       # We then install the platform, which one will be determined
       # dynamically by the build matrix.
       - name: Install platform
@@ -96,7 +99,7 @@ jobs:
       # Compile
       - name: Compile sketch
         run: |
-          arduino-cli board attach ${{ matrix.fqbn }} # Tailor build to specific board
+          arduino-cli board attach -b ${{ matrix.fqbn }} # Tailor build to specific board
           arduino-cli compile -b ${{ matrix.fqbn }} --output-dir "${{ github.workspace }}/build-output"
 
       - name: Save build information
