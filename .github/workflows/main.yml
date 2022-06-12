@@ -89,6 +89,8 @@ jobs:
           #arduino-cli lib install "Adafruit DotStar"
           # Switch to the brightness-limited version
           # See https://github.com/adafruit/Adafruit_DotStar/pull/26
+          # Note: dependencies don't seem to be auto-installed when using zip files
+          arduino-cli lib install "Adafruit BusIO"
           wget -N "https://github.com/digitalcircuit/Adafruit_DotStar/archive/refs/heads/ft-hw-limit-brightness.zip"
           arduino-cli lib install --zip-path ft-hw-limit-brightness.zip
 
