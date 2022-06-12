@@ -4,11 +4,6 @@
 #include <stdint.h>
 
 #include <Adafruit_DotStar.h>
-// Include hardware SPI interface if available
-// Matches Adafruit_DotStar library include
-#if !defined(__AVR_ATtiny85__)
- #include <SPI.h>
-#endif
 
 #include "color.h"
 #include "outputabstract.h"
@@ -28,9 +23,8 @@ public:
      *
      * @param numLEDs           Number of DotStar pixels
      * @param rgbOrder          RGB ordering of pixels, e.g. DOTSTAR_BGR
-     * @param clockMaxOverride  If non-zero, set maximum SPI clock speed in Hz
      */
-    OutputAdafruitDotStar(int numLEDs, uint8_t rgbOrder, uint32_t clockMaxOverride = 0);
+    OutputAdafruitDotStar(int numLEDs, uint8_t rgbOrder);
 
     /**
      * Constructs a new Adafruit DotStar output using software SPI, custom pins
@@ -75,7 +69,6 @@ private:
 
     Adafruit_DotStar _lights;                ///< Internal DotStar strip
     raw_intensity_t *_light_intensity_array; ///< Software brightness tracking
-    uint32_t _clockMaxOverride = 0;          ///< Custom SPI clock limit in Hz
 };
 
 #endif
