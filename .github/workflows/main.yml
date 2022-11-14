@@ -75,6 +75,12 @@ jobs:
       - name: Print Arduino CLI version
         run: arduino-cli version
 
+      - name: Manually update index (arduino-cli v0.28 bug)
+        run: |
+          # Update package index
+          # This became necessary after upgrading from arduino-cli v0.27.1 to v0.28.0
+          arduino-cli core update-index
+
       # We then install the platform, which one will be determined
       # dynamically by the build matrix.
       - name: Install platform
