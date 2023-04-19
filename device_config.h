@@ -80,8 +80,9 @@
 
     // DotStar status indicator LED
     #include "statusdotstarled.h"
-    #define STATUS_DOTSTAR_DATAPIN   (8)
-    #define STATUS_DOTSTAR_CLOCKPIN  (6)
+    // See Adafruit_DotStar/examples/onboard/onboard.ino
+    #define STATUS_DOTSTAR_DATAPIN   (PIN_DOTSTAR_DATA)
+    #define STATUS_DOTSTAR_CLOCKPIN  (PIN_DOTSTAR_CLK)
     extern StatusDotStarLed statusLed;
     #define DEC_STATUS StatusDotStarLed statusLed(STATUS_DOTSTAR_DATAPIN, STATUS_DOTSTAR_CLOCKPIN, DOTSTAR_BGR);
 
