@@ -41,10 +41,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source code
-        uses: actions/checkout@v2.1.0
+        uses: actions/checkout@v3
 
       - name: Cache Arduino packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-build-${{ matrix.arduino-platform }}-${{ hashFiles('.github/workflows/main.yml') }}
           path: |
@@ -52,7 +52,7 @@ jobs:
             ~/.arduino15/packages
 
       - name: Setup Arduino CLI
-        uses: arduino/setup-arduino-cli@v1.1.1
+        uses: arduino/setup-arduino-cli@v1
 
       # See https://github.community/t/syntax-for-replacing-characters-in-string/17240/1
       # And https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-environment-variable
@@ -121,7 +121,7 @@ jobs:
           echo "Run ID: ${{ github.run_id }}" >> ${{ github.workspace }}/build-output/build-info.txt
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ActinicArduino-${{ env.fqbn_filename }}
           path: |
