@@ -121,7 +121,7 @@ jobs:
           echo "Run ID: ${{ github.run_id }}" >> ${{ github.workspace }}/build-output/build-info.txt
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ActinicArduino-${{ env.fqbn_filename }}
           path: |
